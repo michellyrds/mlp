@@ -10,7 +10,7 @@ class Perceptron: #declarando a classe do nosso neurônio multilayer perceptron
 
     def fit(self, X): # etapa de treino
         i = 0
-        for valor in x:
+        for valor in X:
             self.somatoria += self.pesos[i] * valor
             i += 1
         self.somatoria += self.bias
@@ -18,12 +18,8 @@ class Perceptron: #declarando a classe do nosso neurônio multilayer perceptron
         pass
 
     def predict(self, X): # testes
-        # função de ativação bipolar
-        if (x >= 0):
-            return 1
-        else:
-            return -1
         pass
+
         
 class MultilayerPerceptron: #declarando a classe do nosso  multilayer perceptron
 
@@ -35,7 +31,7 @@ class MultilayerPerceptron: #declarando a classe do nosso  multilayer perceptron
     def createPerceptrons(self):
         i = 0
         while i < self.numPerIni:
-            perceptron = Perceptron(self.pesosAleatorios(self.numPerIni, randon.randrange(-1, 1)))
+            perceptron = Perceptron(self.pesosAleatorios(self.numPerIni, random.randrange(-1, 1)))
             # continues...
         pass
     
