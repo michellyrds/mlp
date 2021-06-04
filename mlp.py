@@ -1,3 +1,7 @@
+"""
+    Implementação do multilayer perceptron
+"""
+
 import numpy as np #importando biblioteca de manipulação de matrizes e etc
 import random
 
