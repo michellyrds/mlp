@@ -1,0 +1,32 @@
+Rede Neural 
+    Considere Xi como um nó de um grafo.
+    Xi tal que i = 1, 2, 3,..n  são inputs que representam algo.
+    Arco: wi tal que i = 1, 2, 3,..n representam os pesos dos arcos.
+
+    os pesos sinápticos e o bias (víes) não são decididos pela gente. Se sim, é um hiperparâmetro.
+    
+    A função de ativação depende da entrada e da saída para definir a arquitetura do projeto (como
+    modelamos a rede neural)
+
+[Modelagem de uma rede neural]
+Reconhecimento de caracteres - problema de classificação resolvido com uma
+rede neural Perceptron.
+alfabeto: {A, B, C, D, E, J, K}
+Conjunto de treinamento rotulado: matriz de pixels -> label: caractere.
+Conjunto de teste: d0ataset com ruído (testar capacidade de generalização).
+representar os problemas num espaço vetorial (ex: matriz bidimensional 
+    -> cada elemento do vetor é um elemento descritivo).
+lembrar: 0 pode dificultar o aprendizado do algoritmo.
+matriz do conjunto de treinamento: 7x9 (matriz de pixels)
+linearização da matriz
+
+criar 7 neurônios para camada de saída
+ativa: 1
+não ativa: -1
+
+quando os neurônios de saída forem ativados (ou não), temos o output.
+ex: 
+camada de saída: rotulo -> vetor de 7 posições.
+
+63x7 = qtd de pesos
+https://youtu.be/jEex-vOcMUs?t=2278

@@ -1,11 +1,13 @@
 import numpy as np #importando biblioteca de manipulação de matrizes e etc
 import random
+import funcao_step as fs
 
 class Perceptron: #declarando a classe do nosso neurônio multilayer perceptron
 
-    def __init__(self, pesos, bias):
+    def __init__(self, pesos: np.vectorize, bias):
         self.pesos = pesos
         self.bias = bias
+        self.somatoria
         pass
 
     def fit(self, X): # etapa de treino
@@ -13,31 +15,47 @@ class Perceptron: #declarando a classe do nosso neurônio multilayer perceptron
         for valor in X:
             self.somatoria += self.pesos[i] * valor
             i += 1
-        self.somatoria += self.bias
-        self.predict(self, self.somatoria)
+        self.somatoria += self.bias[0]
+        self.somatoria = fs.funcao_step(self.somatoria)
+        #A CONFIRMAR ↓
+        #self.somatoria = fs.d_funcao_step(self.somatoria)
         pass
-
-    def predict(self, X): # testes
-        pass
-
-        
+       
 class MultilayerPerceptron: #declarando a classe do nosso  multilayer perceptron
 
     def __init__(self, numPerIni, numPerFim):
         self.numPerIni = numPerIni
         self.numPerFim = numPerFim
+        self.matrizP = []
         pass
 
-    def createPerceptrons(self):
+    def createPerceptrons(self, qtd_CmE):
+        camada = []
         i = 0
-        while i < self.numPerIni:
-            perceptron = Perceptron(self.pesosAleatorios(self.numPerIni, random.randrange(-1, 1)))
-            # continues...
-        pass
+        while i < qtd_CmE:
+            j = 0
+            while j < self.numPerIni:
+                perceptron = Perceptron(self.pesosAleatorios(self.numPerIni), self.pesosAleatorios(1))
+                camada.append(perceptron)
+                # continues...
+                j += 1
+            self.matrizP.append(camada)
+            i += 1
     
-    def pesosAleatorios(numPerIni):
+    def pesosAleatorios(self, numPerIni): #atribui os pesos aleatórios iniciais
         numAleatorio = []
-        for i in numPerIni:
-           numAleatorio[i] = random.randrange(0, 1)
+        i = 0
+        while i < numPerIni:
+           numAleatorio[i] = random.randrange(-1, 1)
+           i += 1
+        return numAleatorio
 
-    
+    def epoca(self, instancia):  
+        i = 0
+        while i < len(self.matrizP):
+            j = 0
+            while j < len(self.matrizP):
+                self.matrizP[i][j].fit(instancia)
+                j += 1
+            i += 1
+            
