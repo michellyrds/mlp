@@ -35,11 +35,12 @@ class MultilayerPerceptron: #declarando a classe do nosso  multilayer perceptron
     def createPerceptrons(self):
         i = 0
         while i < self.numPerIni:
-            perceptron = Perceptron(self.pesosAleatorios(self.numPerIni, randon.randrange(-1, 1)))
+            perceptron = Perceptron(self.pesosAleatorios(self.numPerIni, random.randrange(-1, 1)))
             # continues...
         pass
     
     def pesosAleatorios(numPerIni):
+        numAleatorio = []
         for i in numPerIni:
            numAleatorio[i] = random.randrange(0, 1)
 
