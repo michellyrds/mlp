@@ -22,13 +22,10 @@ import numpy as np #importando biblioteca de manipulação de matrizes e etc
 import random
 import funcao_step as fs
 
-class Perceptron: #declarando a classe do nosso neurônio multilayer perceptron
-
+class Perceptron:
     def __init__(self, pesos: np.vectorize, bias):
         self.pesos = pesos
         self.bias = bias
-        self.somatoria
-        pass
 
     def fit(self, X): # etapa de treino
         i = 0
@@ -39,7 +36,6 @@ class Perceptron: #declarando a classe do nosso neurônio multilayer perceptron
         self.somatoria = fs.funcao_step(self.somatoria)
         #A CONFIRMAR ↓
         #self.somatoria = fs.d_funcao_step(self.somatoria)
-        pass
        
 class MultilayerPerceptron: #declarando a classe do nosso  multilayer perceptron
 
