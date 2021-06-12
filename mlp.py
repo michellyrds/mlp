@@ -1,7 +1,3 @@
-"""
-    Implementação do multilayer perceptron
-"""
-
 import numpy as np #importando biblioteca de manipulação de matrizes e etc
 import random
 
@@ -10,7 +6,6 @@ class Perceptron: #declarando a classe do nosso neurônio multilayer perceptron
     def __init__(self, pesos, bias):
         self.pesos = pesos
         self.bias = bias
-        pass
 
     def fit(self, X): # etapa de treino
         i = 0
