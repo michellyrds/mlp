@@ -1,45 +1,27 @@
 import numpy as np #importando biblioteca de manipulação de matrizes e etc
-import random
+from funcao_step import (
+    funcao_step,
+    d_funcao_step
+)
+import csv
 
 class Perceptron: #declarando a classe do nosso neurônio multilayer perceptron
+    pass
 
-    def __init__(self, pesos, bias):
-        self.pesos = pesos
-        self.bias = bias
-
-    def fit(self, X): # etapa de treino
-        i = 0
-        for valor in x:
-            self.somatoria += self.pesos[i] * valor
-            i += 1
-        self.somatoria += self.bias
-        self.predict(self, self.somatoria)
-        pass
-
-    def predict(self, X): # testes
-        # função de ativação bipolar
-        if (x >= 0):
-            return 1
-        else:
-            return -1
-        pass
-        
-class MultilayerPerceptron: #declarando a classe do nosso  multilayer perceptron
-
-    def __init__(self, numPerIni, numPerFim):
-        self.numPerIni = numPerIni
-        self.numPerFim = numPerFim
-        pass
-
-    def createPerceptrons(self):
-        i = 0
-        while i < self.numPerIni:
-            perceptron = Perceptron(self.pesosAleatorios(self.numPerIni, randon.randrange(-1, 1)))
-            # continues...
-        pass
+class MultilayerPerceptron:
     
-    def pesosAleatorios(numPerIni):
-        for i in numPerIni:
-           numAleatorio[i] = random.randrange(0, 1)
+    def __init__(self, input_size, eta=0.01, threshold=1e-3):
+        self.w = np.random.uniform([-1,1,input_size+1])
+        self.fnet = np.vectorize(funcao_step)
+        self.dfnet = np.vectorize(d_funcao_step)
+        self.eta = eta
+        self.threshold = threshold
+        self.erro_quad = 0
 
-    
+    #def init_weights(self)
+
+    def train(self, dataset):
+        n = dataset.shape[0]
+
+#https://www.codeproject.com/Articles/821348/Multilayer-Perceptron-in-Python
+
