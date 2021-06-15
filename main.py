@@ -10,3 +10,21 @@ hyperparameters = {
 
 
 }
+
+
+
+
+# possível avaliação que resultará em matrizes de confusão
+
+'''
+testes = round(modelo.predict(teste))
+
+m_c = confusion_matrix(labels, testes)
+print(m_c)
+
+df_cm = pd.DataFrame(m_c, index = [i for i in "PN"],
+                  columns = [i for i in "PN"])
+plt.figure(figsize = (7,6))
+sn.heatmap(df_cm, annot=True)
+plt.show()
+'''
