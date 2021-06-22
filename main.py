@@ -1,6 +1,5 @@
 #execucao do MLP e avaliar o modelo
 from mlp import(
-    Perceptron,
     MultilayerPerceptron
 )
 
@@ -11,6 +10,18 @@ hyperparameters = {
 
 }
 
+
+
+# função para separar o label
+
+'''
+def separandoData(dataset, n_labels):
+    i = 0
+    while(i<n_labels):
+        last_column = dataset.iloc[: , -1]
+        last_columns.append(last_column)
+        dataset.drop(last_column)
+'''
 
 
 
