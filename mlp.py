@@ -1,45 +1,72 @@
 import numpy as np #importando biblioteca de manipulação de matrizes e etc
-import random
+from funcao_step import (
+    funcao_step,
+    d_funcao_step
+)
+import csv
 
-class Perceptron: #declarando a classe do nosso neurônio multilayer perceptron
+"""
+    Dict que implementa os hiperparametros do MLP
+"""
 
-    def __init__(self, pesos, bias):
-        self.pesos = pesos
-        self.bias = bias
+"""
+    **Hiperparametros do modelo**
+    n_inputs: numero de perceptrons na camada de entrada
+    n_camada_escondida: lista de int no qual
+        len(n_camada_escondida): número de camadas escondidas
+        n_camada_escondida[i] = k, onde k é o número de perceptrons na camada escondida i
+    n_outputs: numero de perceptrons na camada de saída
+"""
 
-    def fit(self, X): # etapa de treino
-        i = 0
-        for valor in x:
-            self.somatoria += self.pesos[i] * valor
-            i += 1
-        self.somatoria += self.bias
-        self.predict(self, self.somatoria)
-        pass
+def gen_hyperparameters_dict(n_inputs: int, n_camada_escondida: list, n_outputs: int) -> dict:
+    
+    hyperparameters = dict([
+        ('n_inputs', n_inputs),
+        ('n_camada_escondida', n_camada_escondida),
+        ('n_outputs', n_outputs)
+    ])
+    return hyperparameters
 
-    def predict(self, X): # testes
-        # função de ativação bipolar
-        if (x >= 0):
-            return 1
-        else:
-            return -1
-        pass
+class MultilayerPerceptron:
+    
+    def __init__(self, hyperparameters: dict):
         
-class MultilayerPerceptron: #declarando a classe do nosso  multilayer perceptron
+        self.n_inputs = hyperparameters['n_inputs']
+        self.n_camada_escondidas = hyperparameters['n_camada_escondida']
+        self.n_outputs = hyperparameters['n_outputs']
 
-    def __init__(self, numPerIni, numPerFim):
-        self.numPerIni = numPerIni
-        self.numPerFim = numPerFim
+        camadas = [self.n_inputs] + self.n_camada_escondidas + [self.n_outputs]
+        print("------------------------------")
+        print("Esboço da rede neural:")
+        print(camadas)
+        print("------------------------------")
+        # inicializando os pesos aleatorios
+        # self.w = np.random.uniform([-1, 1, self.n_inputs + 1])
+        pesos = [] #matriz de pesos
+
+        for i in range(len(camadas)-1):
+            #wL = np.random.uniform([-1, 1], camadas[i], camadas[i + 1]) -> usar essa para a função tanh
+            w = np.random.rand(camadas[i], camadas[i+1])
+            pesos.append(w)
+        self.pesos = pesos
+        for w in self.pesos:
+            print(w)
+
+    def train(dataset, train_size: int, test_size: int, random_state: int):
         pass
 
-    def createPerceptrons(self):
-        i = 0
-        while i < self.numPerIni:
-            perceptron = Perceptron(self.pesosAleatorios(self.numPerIni, randon.randrange(-1, 1)))
-            # continues...
+    def preprocessing(dataset): #Nanda, Ale, Raul 
         pass
-    
-    def pesosAleatorios(numPerIni):
-        for i in numPerIni:
-           numAleatorio[i] = random.randrange(0, 1)
 
-    
+    def forward_propagate(self, inputs):
+        ativacoes = inputs
+     
+        for w in self.pesos:
+            #----------------------arrumar essa desgraça aqui--------------------------
+            net_inputs = np.dot(ativacoes, w, out=None)
+            #net_inputs = np.dot(ativacoes, wL) #multiplicacao de matrizes
+            ativacoes = funcao_step(net_inputs)
+
+        #aqui retorna o output da camada de saida
+        return ativacoes
+
