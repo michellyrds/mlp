@@ -1,4 +1,6 @@
-# **Multilayer Perceptron**
+
+# **Beronivalda Enajaras, a reconhecedora de caracteres**
+## **Multilayer Perceptron**
 
 ### Implementação da rede neural artificial Multilayer Perceptron com uma camada escondida e treinada com o algoritmo Backpropagation de gradiente descendente.
 
@@ -18,8 +20,9 @@ trecho de código
 **Estrutura de arquivo do MLP:**
 ```
 ├── _config.yml
-├── _data
-│   └── members.yml
+├── _datasets/
+|   ├── begin-with-the-crazy-ideas.md
+│   └── members.
 ├── _drafts
 │   ├── begin-with-the-crazy-ideas.md
 │   └── on-simplicity-in-technology.md
@@ -45,12 +48,11 @@ trecho de código
 ```
 Integrantes do grupo:
 * Alexandre Kenji
-* Fernanda Cavalcante
+* Fernanda Cavalcante Nascimento 
+   * 11390827 | nandacnas@usp.br
 * Guilherme Sena
 * Michelly Rodrigues da Silva
-   * 11270607
-   * michelly.rds@usp.br
-* Raul Sperandio 
+   * 11270607 | michelly.rds@usp.br
+* Raul Sperandio
+   * 11271060 | raulsperandio@usp.br 
 
-testando uma coisa  
-testado

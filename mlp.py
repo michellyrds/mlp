@@ -40,17 +40,17 @@ class MultilayerPerceptron:
         print("Esboço da rede neural:")
         print(camadas)
         print("------------------------------")
+
         # inicializando os pesos aleatorios
-        # self.w = np.random.uniform([-1, 1, self.n_inputs + 1])
         pesos = [] #matriz de pesos
 
         for i in range(len(camadas)-1):
             #wL = np.random.uniform([-1, 1], camadas[i], camadas[i + 1]) -> usar essa para a função tanh
-            w = np.random.rand(camadas[i], camadas[i+1])
+            w = np.random.uniform([-1, 1], camadas[i], camadas[i + 1])
             pesos.append(w)
         self.pesos = pesos
-        for w in self.pesos:
-            print(w)
+        for w in pesos:
+            print(pesos)
 
     def train(dataset, train_size: int, test_size: int, random_state: int):
         pass
