@@ -46,13 +46,17 @@ class MultilayerPerceptron:
 
         for i in range(len(camadas)-1):
             #wL = np.random.uniform([-1, 1], camadas[i], camadas[i + 1]) -> usar essa para a função tanh
-            w = np.random.uniform([-1, 1], camadas[i], camadas[i + 1])
+            w = np.random.rand(camadas[i], camadas[i + 1])
             pesos.append(w)
         self.pesos = pesos
         for w in pesos:
             print(pesos)
 
     def train(dataset, train_size: int, test_size: int, random_state: int):
+        #preprocessing
+        #para cada linha de entrada: forward_propagate
+        #avaliar acuracia
+        #salvar modelo
         pass
 
     def preprocessing(dataset): #Nanda, Ale, Raul 
@@ -70,3 +74,5 @@ class MultilayerPerceptron:
         #aqui retorna o output da camada de saida
         return ativacoes
 
+    def save_model(self): #michelly
+        pass
