@@ -3,7 +3,7 @@ from math import exp
 def funcao_step(x): # funcao sigmoide
     ativacao = []
     for element in x: 
-        ativacao.append(1.0 / (1.0 + exp(-element)))
+        ativacao.append(1.0 / (1.0 + exp((-element))))
 
     return ativacao
 

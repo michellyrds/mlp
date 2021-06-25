@@ -59,9 +59,6 @@ class MultilayerPerceptron:
         #salvar modelo
         pass
 
-    def preprocessing(dataset): #Nanda, Ale, Raul 
-        pass
-
     def forward_propagate(self, inputs):
         ativacoes = inputs
      
