@@ -1,7 +1,6 @@
 import numpy as np #importando biblioteca de manipulação de matrizes e etc
 from funcao_step import (
-    funcao_step,
-    d_funcao_step
+    sigmoid
 )
 import csv
 
@@ -51,16 +50,12 @@ class MultilayerPerceptron:
             w = np.random.rand(camadas[i], camadas[i + 1])
             pesos.append(w)
         self.pesos = pesos
-        for w in pesos:
-            print(pesos)
 
     def preprocessing(self, dataset):
         self.inputs.clear()
         self.labels.clear()
 
         for input in dataset:
-            print(input[:-self.n_outputs])
-            print(input[self.n_inputs:])
             self.inputs.append(input[:-self.n_outputs])
             self.labels.append(input[self.n_inputs:])
         
@@ -69,6 +64,7 @@ class MultilayerPerceptron:
 
         for input in self.inputs:
             output = self.forward_propagate(input)
+            print(output)
             #backpropagation        
 
     def forward_propagate(self, inputs):
@@ -76,7 +72,7 @@ class MultilayerPerceptron:
      
         for w in self.pesos:
             net_inputs = np.dot(ativacoes, w)
-            ativacoes = funcao_step(net_inputs)
+            ativacoes = sigmoid(net_inputs)
 
         #aqui retorna o output da camada de saida
         return ativacoes
