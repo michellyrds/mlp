@@ -5,11 +5,9 @@
 ### Implementação da rede neural artificial Multilayer Perceptron com uma camada escondida e treinada com o algoritmo Backpropagation de gradiente descendente.
 
 **TO DO LIST** (remover depois)
-- [ ] Implementar o MLP
-- [x] Treinar 
-- [x] \(Opcional) Earth (Orbit/Moon)
-- [x] Mars
-- [ ] Jupiter
+- [x] Implementar o MLP
+- [ ] Implementar o Backpropagation
+- [ ] Implementar avaliação de classificadores
 
 ### **Executando o MLP**
 ```
