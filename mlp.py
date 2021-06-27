@@ -34,6 +34,8 @@ class MultilayerPerceptron:
         self.n_inputs = hyperparameters['n_inputs']
         self.n_camada_escondidas = hyperparameters['n_camada_escondida']
         self.n_outputs = hyperparameters['n_outputs']
+        self.inputs = []
+        self.labels = []
 
         camadas = [self.n_inputs] + self.n_camada_escondidas + [self.n_outputs]
         print("------------------------------")
@@ -52,20 +54,28 @@ class MultilayerPerceptron:
         for w in pesos:
             print(pesos)
 
-    def train(dataset, train_size: int, test_size: int, random_state: int):
-        #preprocessing
-        #para cada linha de entrada: forward_propagate
-        #avaliar acuracia
-        #salvar modelo
-        pass
+    def preprocessing(self, dataset):
+        self.inputs.clear()
+        self.labels.clear()
+
+        for input in dataset:
+            print(input[:-self.n_outputs])
+            print(input[self.n_inputs:])
+            self.inputs.append(input[:-self.n_outputs])
+            self.labels.append(input[self.n_inputs:])
+        
+    def train(self, dataset):
+        self.preprocessing(dataset)
+
+        for input in self.inputs:
+            output = self.forward_propagate(input)
+            #backpropagation        
 
     def forward_propagate(self, inputs):
         ativacoes = inputs
      
         for w in self.pesos:
-            #----------------------arrumar essa desgraça aqui--------------------------
-            net_inputs = np.dot(ativacoes, w, out=None)
-            #net_inputs = np.dot(ativacoes, wL) #multiplicacao de matrizes
+            net_inputs = np.dot(ativacoes, w)
             ativacoes = funcao_step(net_inputs)
 
         #aqui retorna o output da camada de saida
