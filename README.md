@@ -47,7 +47,8 @@ trecho de código
 └── index.html # can also be an 'index.md' with valid front matter
 ```
 Integrantes do grupo:
-* Alexandre Kenji
+* Alexandre Kenji Okamoto
+   * 11208371 | alexandre.kenji19@usp.br
 * Fernanda Cavalcante Nascimento 
    * 11390827 | nandacnas@usp.br
 * Guilherme Sena
