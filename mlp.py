@@ -70,11 +70,15 @@ class MultilayerPerceptron:
     def forward_propagate(self, inputs):
         ativacoes = inputs
      
-        for w in self.pesos:
+        for w in self.pesos[:-1]:
             net_inputs = np.dot(ativacoes, w)
             ativacoes = sigmoid(net_inputs)
 
-        #aqui retorna o output da camada de saida
+        
+        #nao devemos aplicar a funcao de ativação na camada de saida
+        w = self.pesos[-1]
+        net_inputs = np.dot(ativacoes, w)
+        ativacoes = net_inputs
         return ativacoes
 
     def save_model(self): #michelly
