@@ -5,11 +5,9 @@
 ### Implementação da rede neural artificial Multilayer Perceptron com uma camada escondida e treinada com o algoritmo Backpropagation de gradiente descendente.
 
 **TO DO LIST** (remover depois)
-- [ ] Implementar o MLP
-- [x] Treinar 
-- [x] \(Opcional) Earth (Orbit/Moon)
-- [x] Mars
-- [ ] Jupiter
+- [x] Implementar o MLP
+- [ ] Implementar o Backpropagation
+- [ ] Implementar avaliação de classificadores
 
 ### **Executando o MLP**
 ```
@@ -47,7 +45,8 @@ trecho de código
 └── index.html # can also be an 'index.md' with valid front matter
 ```
 Integrantes do grupo:
-* Alexandre Kenji
+* Alexandre Kenji Okamoto
+   * 11208371 | alexandre.kenji19@usp.br
 * Fernanda Cavalcante Nascimento 
    * 11390827 | nandacnas@usp.br
 * Guilherme Sena
