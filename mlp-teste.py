@@ -40,4 +40,5 @@ h = gen_hyperparameters_dict(2,[2],1)
 mlp = MultilayerPerceptron(h)
 mlp.train(AND_dataset)
 
+#predições: chamar o forward_propagate
 #print("Output: ", output)
