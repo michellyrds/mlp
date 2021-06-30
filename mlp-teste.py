@@ -4,9 +4,6 @@ from numpy import genfromtxt
 from mlp import *
 import csv
 
-def teste(self, dataset):
-    pass
-
 def preprocessing(dataset):
     gen = np.genfromtxt(dataset, delimiter=",", encoding = "UTF-8-sig")
     features = gen[:, 0:2]
@@ -29,19 +26,19 @@ AND_dataset = np.genfromtxt("datasets/problemAND.csv", delimiter=",", encoding =
 Dados_dataset = np.genfromtxt("datasets/resultadoData.csv", delimiter=",", encoding = "UTF-8-sig")
 Labels_dataset = np.genfromtxt("datasets/resultadoLabels.csv", delimiter=",", encoding = "UTF-8-sig")
 
-print("Input: ", AND_dataset)
-print("")
-print("Dados: ", Dados_dataset)
-print("")
-print("Labels: ", Labels_dataset)
+# print("Input: ", AND_dataset)
+# print("")
+# print("Dados: ", Dados_dataset)
+# print("")
+# print("Labels: ", Labels_dataset)
 
 
-print("-------------------")
+# print("-------------------")
 
 
 h = gen_hyperparameters_dict(2,[2],1)
 mlp = MultilayerPerceptron(h)
-output = mlp.forward_propagate(Dados_dataset[0])
+mlp.train(AND_dataset)
 
-print("Input: ", Dados_dataset)
-print("Output: ", output)
+#predições: chamar o forward_propagate
+#print("Output: ", output)
