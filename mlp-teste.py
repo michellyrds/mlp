@@ -38,7 +38,7 @@ Labels_dataset = np.genfromtxt("datasets/resultadoLabels.csv", delimiter=",", en
 
 h = gen_hyperparameters_dict(2,[2],1)
 mlp = MultilayerPerceptron(h)
-mlp.train(AND_dataset)
+mlp.train(AND_dataset,10,0.1)
 
 #predições: chamar o forward_propagate
 #print("Output: ", output)

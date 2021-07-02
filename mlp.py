@@ -145,7 +145,7 @@ class MultilayerPerceptron:
             # ativacao_atual_coluna = ativacao_atual.reshape(ativacao_atual.shape[0], -1)
             self.derivadas = np.dot(ativacao_atual, delta) 
 
-            erro = np.dot(delta, self.pesos[i].T) #transposta
+            erro = np.dot(delta, np.reshape(np.shape(self.pesos[i]), -1).T) #transposta
              
         return erro
 

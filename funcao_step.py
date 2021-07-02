@@ -24,6 +24,8 @@ def tanh(input):
         ativacao.append(
             (exp(x) - exp(-x))/(exp(x) + exp(-x)) #f(x)
         )
+    
+    return ativacao
 
 def d_tanh(input):
     ativacao = []
