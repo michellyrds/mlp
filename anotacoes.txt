@@ -13,7 +13,7 @@ Reconhecimento de caracteres - problema de classificação resolvido com uma
 rede neural Perceptron.
 alfabeto: {A, B, C, D, E, J, K}
 Conjunto de treinamento rotulado: matriz de pixels -> label: caractere.
-Conjunto de teste: d0ataset com ruído (testar capacidade de generalização).
+Conjunto de teste: dataset com ruído (testar capacidade de generalização).
 representar os problemas num espaço vetorial (ex: matriz bidimensional 
     -> cada elemento do vetor é um elemento descritivo).
 lembrar: 0 pode dificultar o aprendizado do algoritmo.

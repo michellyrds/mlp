@@ -1,7 +1,9 @@
 import numpy as np  # importando biblioteca de manipulação de matrizes e etc
 from funcao_step import (
     d_sigmoid,
-    sigmoid
+    sigmoid,
+    tanh,
+    d_tanh
 )
 import csv
 
@@ -42,13 +44,14 @@ class MultilayerPerceptron:
         #representação da arquitetura da rede
         camadas = [self.n_inputs] + self.n_camada_escondidas + [self.n_outputs]
 
+        np.random.seed(seed)
         pesos = []  # matriz de pesos
         for i in range(len(camadas)-1):
-            #w = np.random.uniform(-1,1, (camadas[i], camadas[i+1])) #matriz aleatoria [-1,1)
-            w = np.random.rand(camadas[i], camadas[i + 1])
+            w = np.random.uniform(-1,1, (camadas[i], camadas[i+1])) #matriz aleatoria [-1,1)
+            # w = np.random.rand(camadas[i], camadas[i + 1])
             pesos.append(w)
         self.pesos = pesos
-
+  
         # ativações por camada
         ativacoes = []
         for i in range(len(camadas)):
@@ -132,11 +135,12 @@ class MultilayerPerceptron:
             derivadas = self.derivadas[i]
             w += derivadas * learning_rate
 
-    def train(self, dataset, epochs, learning_rate, seed):
+    def train(self, dataset, epochs, learning_rate):
         self.preprocessing(dataset)
 
         for i in range(epochs):
             erro_quadrado = 0
+            erro_quadrado_ant = 0
 
             for j, input in enumerate(self.inputs):
 
@@ -148,10 +152,17 @@ class MultilayerPerceptron:
 
                 self.gradient_descent(learning_rate)
 
+                erro_quadrado_ant = erro_quadrado
                 erro_quadrado += self.mean_squad_error(self.labels[j], output)
 
             print("Erro: {} na época {}".format(erro_quadrado/(len(self.inputs)), i+1))
 
+
+    def predict(self, input):
+
+        output = self.forward_propagate(input)
+
+        return output
 
 
 
