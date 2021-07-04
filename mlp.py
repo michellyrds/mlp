@@ -132,10 +132,10 @@ class MultilayerPerceptron(object):
             w += derivadas * learning_rate
             # self.pesos[i] = w
 
-    def train(self, dataset, learning_rate, test_size, seed=None):
+    def train_CV(self, dataset, learning_rate, test_size, seed=None):
         # train, validation = train
         random.Random(seed).shuffle(dataset)
-        #self.preprocessing(dataset)
+        # self.preprocessing(dataset)
 
         #X_train, X_test, y_train, y_test = train_test_split(self.inputs, self.labels, test_size=test_size)
 
@@ -144,28 +144,80 @@ class MultilayerPerceptron(object):
 
         for train_index, test_index in kfolds.split(dataset):
             X_train, X_test = dataset[train_index], dataset[test_index]
-            y_train, y_test = dataset[train_index],dataset[test_index]
+            y_train, y_test = dataset[train_index], dataset[test_index]
+            for input in X_train:
+                print(input)
 
+        # for i in range(True):
+        #     erro_quadrado = 0
+        #     erro_quadrado_ant = 0
 
-        for i in range(True):
+        #     for j, input in enumerate(X_train):
+
+        #         output = self.forward_propagate(input)
+
+        #         erro = y_train[j] - output
+
+        #         self.back_propagate(erro)
+
+        #         self.gradient_descent(learning_rate)
+
+        #         erro_quadrado_ant = erro_quadrado
+        #         erro_quadrado += self.mean_squad_error(y_train[j], output)
+
+        #     print("Erro: {} na época {}".format(
+        #         erro_quadrado/(len(X_train)), i+1))
+
+    def train(self, dataset, maxEpochs, learning_rate, test_size, random_state=None, momentum=0.7):
+        #dataset de treinamento, um de teste e um de validação
+        X, y = [], []
+        for input in dataset:
+            X.append(input[:-self.n_outputs])
+            y.append(input[self.n_inputs:])
+
+        self.preprocessing(dataset)
+
+        taxa_erro = 0
+
+        for i in range(maxEpochs):
+            X_train, X_test, y_train, y_test = train_test_split(
+                        X, y, test_size=test_size, random_state=random_state)
+
             erro_quadrado = 0
-            erro_quadrado_ant = 0
 
-            for j, input in enumerate(X_train):
+            for j, input in enumerate(self.inputs):
 
                 output = self.forward_propagate(input)
 
-                erro = y_train[j] - output
+                erro = self.labels[j] - output
 
                 self.back_propagate(erro)
 
                 self.gradient_descent(learning_rate)
+      
+                erro_quadrado += self.mean_squad_error(self.labels[j], output)
 
-                erro_quadrado_ant = erro_quadrado
-                erro_quadrado += self.mean_squad_error(y_train[j], output)
+            taxa_erro = erro_quadrado/(len(self.inputs))
+            print("Erro no treinamento: {} na época {}".format(
+                taxa_erro, i+1))
 
-            print("Erro: {} na época {}".format(
-                erro_quadrado/(len(X_train)), i+1))
+            if(1 - taxa_erro >= momentum):
+                print("Rede neural convergiu na época {} com acurácia de {}".format(i+1, 1 - taxa_erro))
+                break
+            #momentum
+            # for j, input in enumerate(X_test):
+            #     erro_quadrado_test = 0
+            #     output = self.forward_propagate(input)
+            #     erro = y_test[j] - output
+
+            #     erro_quadrado_test += self.mean_squad_error(y_test[j], output)
+
+            # erro_medio = (erro_quadrado/(len(X_train)) - (erro_quadrado_test/(len(X_test))))
+            # acc = 1 - erro_medio
+            # if(acc >= momentum):
+            #     print("Rede neural convergiu na época {} com acurácia de {}".format(i+1, acc))
+            #     break
+
 
     def predict(self, input):
 
