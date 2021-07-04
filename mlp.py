@@ -1,11 +1,11 @@
-import numpy as np  # importando biblioteca de manipulação de matrizes e etc
+import numpy as np
 from funcao_step import (
     d_sigmoid,
     sigmoid,
     tanh,
     d_tanh
 )
-import csv
+import random
 
 """
     Dict que implementa os hiperparametros do MLP
@@ -31,27 +31,25 @@ def gen_hyperparameters_dict(n_inputs: int, n_camada_escondida: list, n_outputs:
     return hyperparameters
 
 
-class MultilayerPerceptron:
+class MultilayerPerceptron(object):
 
-    def __init__(self, hyperparameters: dict,seed=None):
+    def __init__(self, hyperparameters: dict, seed=None):
 
         self.n_inputs = hyperparameters['n_inputs']
         self.n_camada_escondidas = hyperparameters['n_camada_escondida']
         self.n_outputs = hyperparameters['n_outputs']
-        self.inputs = []
-        self.labels = []
 
-        #representação da arquitetura da rede
+        # representação da arquitetura da rede
         camadas = [self.n_inputs] + self.n_camada_escondidas + [self.n_outputs]
 
         np.random.seed(seed)
         pesos = []  # matriz de pesos
         for i in range(len(camadas)-1):
-            w = np.random.uniform(-1,1, (camadas[i], camadas[i+1])) #matriz aleatoria [-1,1)
-            # w = np.random.rand(camadas[i], camadas[i + 1])
+            # w = np.random.uniform(-1, 1, (camadas[i], camadas[i+1]))
+            w = np.random.rand(camadas[i], camadas[i + 1])
             pesos.append(w)
         self.pesos = pesos
-  
+
         # ativações por camada
         ativacoes = []
         for i in range(len(camadas)):
@@ -69,12 +67,9 @@ class MultilayerPerceptron:
         self.derivadas = derivadas
 
     def preprocessing(self, dataset):
-        self.inputs.clear()
-        self.labels.clear()
+        X, y = dataset[:, :-self.n_outputs], dataset[:, self.n_inputs:]
 
-        for input in dataset:
-            self.inputs.append(input[:-self.n_outputs])
-            self.labels.append(input[self.n_inputs:])
+        return X, y
 
     def forward_propagate(self, inputs):
         ativacoes = inputs
@@ -90,7 +85,8 @@ class MultilayerPerceptron:
         w = self.pesos[-1]
         net_inputs = np.dot(ativacoes, w)
         ativacoes = net_inputs
-        # !
+        self.ativacoes[-1] = ativacoes
+        # # !
         return ativacoes
 
     def back_propagate(self, erro):
@@ -113,17 +109,18 @@ class MultilayerPerceptron:
             ativacoes = self.ativacoes[i+1]
 
             delta = erro * d_sigmoid(ativacoes)
-            delta_t = np.reshape(np.shape(delta[0]), -1).T
-            # np.reshape(np.shape(delta[0]), -1).T # transposta da matriz coluna
+
+            delta_t = delta.reshape(delta.shape[0], -1).T
 
             ativacao_atual = self.ativacoes[i]
+
             # transforma em uma matriz coluna
-            ativacao_atual = np.reshape(np.shape(ativacao_atual[0]), -1)
-            # se nao funfar, tentar:
-            # ativacao_atual_coluna = ativacao_atual.reshape(ativacao_atual.shape[0], -1)
+            ativacao_atual = ativacao_atual.reshape(
+                ativacao_atual.shape[0], -1)
+
             self.derivadas[i] = np.dot(ativacao_atual, delta_t)
-            # !
-            erro = np.dot(delta, np.transpose(self.pesos[i]))  # transposta
+
+            erro = np.dot(delta, self.pesos[i].T)  # transposta
 
     def mean_squad_error(self, label, output):
         return np.average((label - output)**2)
@@ -134,37 +131,35 @@ class MultilayerPerceptron:
             w = self.pesos[i]
             derivadas = self.derivadas[i]
             w += derivadas * learning_rate
+            # self.pesos[i] = w
 
     def train(self, dataset, epochs, learning_rate):
-        self.preprocessing(dataset)
+        X, y = self.preprocessing(dataset)
+        erro_quadrado = 0
 
         for i in range(epochs):
-            erro_quadrado = 0
-            erro_quadrado_ant = 0
 
-            for j, input in enumerate(self.inputs):
+            for j, input in enumerate(X):
 
                 output = self.forward_propagate(input)
 
-                erro = self.labels[j] - output
+                erro = y[j] - output
 
                 self.back_propagate(erro)
 
                 self.gradient_descent(learning_rate)
 
-                erro_quadrado_ant = erro_quadrado
-                erro_quadrado += self.mean_squad_error(self.labels[j], output)
+                erro_quadrado += self.mean_squad_error(y[j], output)
 
-            print("Erro: {} na época {}".format(erro_quadrado/(len(self.inputs)), i+1))
-
+            print("Erro: {} na época {}".format(
+                erro_quadrado/(len(X)), i+1))
+            acc = 1 - erro_quadrado/(len(X))
 
     def predict(self, input):
 
         output = self.forward_propagate(input)
 
         return output
-
-
 
     def save_model(self):  # michelly
         # salvar a arquitetura do modelo
