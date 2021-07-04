@@ -1,12 +1,14 @@
-import numpy as np  # importando biblioteca de manipulação de matrizes e etc
+import numpy as np
+# importando biblioteca de manipulação de matrizes e etc
 from funcao_step import (
     d_sigmoid,
     sigmoid,
     tanh,
     d_tanh
 )
-import csv
-
+import random
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
 """
     Dict que implementa os hiperparametros do MLP
 """
@@ -33,7 +35,7 @@ def gen_hyperparameters_dict(n_inputs: int, n_camada_escondida: list, n_outputs:
 
 class MultilayerPerceptron:
 
-    def __init__(self, hyperparameters: dict,seed=None):
+    def __init__(self, hyperparameters: dict, seed=None):
 
         self.n_inputs = hyperparameters['n_inputs']
         self.n_camada_escondidas = hyperparameters['n_camada_escondida']
@@ -41,17 +43,18 @@ class MultilayerPerceptron:
         self.inputs = []
         self.labels = []
 
-        #representação da arquitetura da rede
+        # representação da arquitetura da rede
         camadas = [self.n_inputs] + self.n_camada_escondidas + [self.n_outputs]
 
         np.random.seed(seed)
         pesos = []  # matriz de pesos
         for i in range(len(camadas)-1):
-            w = np.random.uniform(-1,1, (camadas[i], camadas[i+1])) #matriz aleatoria [-1,1)
+            # matriz aleatoria [-1,1)
+            w = np.random.uniform(-1, 1, (camadas[i], camadas[i+1]))
             # w = np.random.rand(camadas[i], camadas[i + 1])
             pesos.append(w)
         self.pesos = pesos
-  
+
         # ativações por camada
         ativacoes = []
         for i in range(len(camadas)):
@@ -135,36 +138,46 @@ class MultilayerPerceptron:
             derivadas = self.derivadas[i]
             w += derivadas * learning_rate
 
-    def train(self, dataset, epochs, learning_rate):
-        self.preprocessing(dataset)
+    def train(self, dataset, learning_rate, test_size, seed=None):
+        # train, validation = train
+        random.Random(seed).shuffle(dataset)
+        #self.preprocessing(dataset)
 
-        for i in range(epochs):
+        #X_train, X_test, y_train, y_test = train_test_split(self.inputs, self.labels, test_size=test_size)
+
+        kfolds = KFold(n_splits=9, shuffle=True, random_state=seed)
+        kfolds.get_n_splits(dataset)
+
+        for train_index, test_index in kfolds.split(dataset):
+            X_train, X_test = dataset[train_index], dataset[test_index]
+            y_train, y_test = dataset[train_index],dataset[test_index]
+
+
+        for i in range(True):
             erro_quadrado = 0
             erro_quadrado_ant = 0
 
-            for j, input in enumerate(self.inputs):
+            for j, input in enumerate(X_train):
 
                 output = self.forward_propagate(input)
 
-                erro = self.labels[j] - output
+                erro = y_train[j] - output
 
                 self.back_propagate(erro)
 
                 self.gradient_descent(learning_rate)
 
                 erro_quadrado_ant = erro_quadrado
-                erro_quadrado += self.mean_squad_error(self.labels[j], output)
+                erro_quadrado += self.mean_squad_error(y_train[j], output)
 
-            print("Erro: {} na época {}".format(erro_quadrado/(len(self.inputs)), i+1))
-
+            print("Erro: {} na época {}".format(
+                erro_quadrado/(len(X_train)), i+1))
 
     def predict(self, input):
 
         output = self.forward_propagate(input)
 
         return output
-
-
 
     def save_model(self):  # michelly
         # salvar a arquitetura do modelo
