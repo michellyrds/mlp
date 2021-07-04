@@ -6,7 +6,7 @@
 
 **TO DO LIST** (remover depois)
 - [x] Implementar o MLP
-- [ ] Implementar o Backpropagation
+- [x] Implementar o Backpropagation
 - [ ] Implementar avaliação de classificadores
 
 ### **Executando o MLP**

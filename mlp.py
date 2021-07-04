@@ -6,7 +6,6 @@ from funcao_step import (
     d_tanh
 )
 import random
-
 """
     Dict que implementa os hiperparametros do MLP
 """
@@ -133,27 +132,40 @@ class MultilayerPerceptron(object):
             w += derivadas * learning_rate
             # self.pesos[i] = w
 
-    def train(self, dataset, epochs, learning_rate):
-        X, y = self.preprocessing(dataset)
-        erro_quadrado = 0
+    def train(self, dataset, learning_rate, test_size, seed=None):
+        # train, validation = train
+        random.Random(seed).shuffle(dataset)
+        #self.preprocessing(dataset)
 
-        for i in range(epochs):
+        #X_train, X_test, y_train, y_test = train_test_split(self.inputs, self.labels, test_size=test_size)
 
-            for j, input in enumerate(X):
+        kfolds = KFold(n_splits=9, shuffle=True, random_state=seed)
+        kfolds.get_n_splits(dataset)
+
+        for train_index, test_index in kfolds.split(dataset):
+            X_train, X_test = dataset[train_index], dataset[test_index]
+            y_train, y_test = dataset[train_index],dataset[test_index]
+
+
+        for i in range(True):
+            erro_quadrado = 0
+            erro_quadrado_ant = 0
+
+            for j, input in enumerate(X_train):
 
                 output = self.forward_propagate(input)
 
-                erro = y[j] - output
+                erro = y_train[j] - output
 
                 self.back_propagate(erro)
 
                 self.gradient_descent(learning_rate)
 
-                erro_quadrado += self.mean_squad_error(y[j], output)
+                erro_quadrado_ant = erro_quadrado
+                erro_quadrado += self.mean_squad_error(y_train[j], output)
 
             print("Erro: {} na época {}".format(
-                erro_quadrado/(len(X)), i+1))
-            acc = 1 - erro_quadrado/(len(X))
+                erro_quadrado/(len(X_train)), i+1))
 
     def predict(self, input):
 
