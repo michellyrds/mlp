@@ -1,4 +1,3 @@
-# carregando os datasets
 import numpy as np
 from numpy import genfromtxt
 from mlp import *
@@ -23,10 +22,6 @@ caracteres_ruido20 = np.genfromtxt(
 
 dataset = np.concatenate((caracteres_limpo,caracteres_ruido,caracteres_ruido20))
 
-# for i,input in enumerate(dataset):
-#     print("{}: {}".format(i,input))
-
-# print(np.shape(caracteres_limpo))
 hyperparameters = gen_hyperparameters_dict(63, [1, 1], 7)
 mlp = MultilayerPerceptron(hyperparameters)
 mlp.train(dataset, 1000, 0.1, 0.2, 5, 0.90)
