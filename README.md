@@ -49,7 +49,8 @@ Integrantes do grupo:
    * 11208371 | alexandre.kenji19@usp.br
 * Fernanda Cavalcante Nascimento 
    * 11390827 | nandacnas@usp.br
-* Guilherme Sena
+* Guilherme Mutschele Sena
+   * 11208304 | guilhermem.sena@usp.br
 * Michelly Rodrigues da Silva
    * 11270607 | michelly.rds@usp.br
 * Raul Sperandio
