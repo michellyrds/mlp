@@ -182,8 +182,10 @@ class MultilayerPerceptron(object):
         print("\nTreinamento finalizado. Acurácia do modelo: {}".format(1 - error))
 
     def predict(self, input):
-
-        output = self.forward_propagate(input)
+        output = []
+        
+        for j, teste in enumerate(input):
+                output.append(self.forward_propagate(teste))
 
         return output
 
