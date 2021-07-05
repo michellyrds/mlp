@@ -20,8 +20,10 @@ caracteres_ruido = np.genfromtxt(
 caracteres_ruido20 = np.genfromtxt(
     'datasets/caracteres_ruido20.csv', delimiter=',', encoding='UTF-8-sig')
 
-dataset = np.concatenate((caracteres_limpo,caracteres_ruido,caracteres_ruido20))
+dataset = np.concatenate(
+    (caracteres_limpo, caracteres_ruido, caracteres_ruido20))
 
-hyperparameters = gen_hyperparameters_dict(63, [1, 1], 7)
+hyperparameters = gen_hyperparameters_dict(63, [49, 39, 33, 29], 7)
 mlp = MultilayerPerceptron(hyperparameters)
-mlp.train(dataset, 1000, 0.1, 0.2, 5, 0.90)
+mlp.train(dataset, maxEpochs=1000, learning_rate=0.001,
+          test_size=0.2, random_state=None, momentum=0.90)

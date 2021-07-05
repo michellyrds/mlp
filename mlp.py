@@ -1,10 +1,5 @@
 import numpy as np
-from funcao_step import (
-    d_sigmoid,
-    sigmoid,
-    tanh,
-    d_tanh
-)
+from funcao_step import *
 import random
 from sklearn.model_selection import (
     train_test_split, 
@@ -84,7 +79,7 @@ class MultilayerPerceptron(object):
             ativacoes = sigmoid(net_inputs)
             self.ativacoes[i+1] = ativacoes
 
-        # nao devemos aplicar a funcao de ativação na camada de saida
+        # aplicando a função de ativação bipolar na camada de saída
         w = self.pesos[-1]
         net_inputs = np.dot(ativacoes, w)
         ativacoes = net_inputs
@@ -133,7 +128,8 @@ class MultilayerPerceptron(object):
         for i in range(len(self.pesos)):
             w = self.pesos[i]
             derivadas = self.derivadas[i]
-            w += derivadas * learning_rate
+            w += (derivadas * learning_rate)
+            self.pesos[i] = w
 
     def train_CV(self, dataset, learning_rate, test_size, seed=None):
         pass
@@ -141,10 +137,11 @@ class MultilayerPerceptron(object):
     def train(self, dataset, maxEpochs, learning_rate, test_size, random_state=None, momentum=0.7):
         # dataset de treinamento, um de teste e um de validação
         X, y = self.preprocessing(dataset)
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+        #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
 
         for i in range(maxEpochs):
-            print("---------------- Época {} ----------------".format(i+1))
+            print("\n---------------- Época {} ----------------".format(i+1))
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
             sum_error_train = 0
 
             for j, input in enumerate(X_train):
@@ -182,7 +179,7 @@ class MultilayerPerceptron(object):
                 return
             
         
-        print("\nTreinamento finalizado. Acurácia do modelo: {}".format(acc))
+        print("\nTreinamento finalizado. Acurácia do modelo: {}".format(1 - error))
 
     def predict(self, input):
 
