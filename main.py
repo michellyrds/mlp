@@ -24,15 +24,25 @@ caracteres_ruido = np.genfromtxt(
 caracteres_ruido20 = np.genfromtxt(
     'datasets/caracteres_ruido20.csv', delimiter=',', encoding='UTF-8-sig')
 
+y1 = caracteres_limpo[7:, :]
+y2 = caracteres_ruido[7:, :]
+y3 = caracteres_ruido20[7:, :]
+dataset_teste = np.concatenate(
+    (y1, y2, y3))
+
+caracteres_limpo = caracteres_limpo[:-7, :]
+caracteres_ruido = caracteres_ruido[:-7, :]
+caracteres_ruido20 = caracteres_ruido20[:-7, :]
+
 dataset = np.concatenate(
-    (caracteres_limpo, caracteres_ruido20))
+    (caracteres_limpo, caracteres_ruido, caracteres_ruido20))
 
 hyperparameters = gen_hyperparameters_dict(63, [49, 39, 33, 29], 7)
 mlp = MultilayerPerceptron(hyperparameters)
 mlp.train(dataset, maxEpochs=2000, learning_rate=0.001,
           test_size=0.2, random_state=None, momentum=0.90)
 
-features, target = mlp.preprocessing(caracteres_ruido)
+features, target = mlp.preprocessing(dataset_teste)
 testes = mlp.predict(features)
 
 print("Acuracia depois de testes:")
