@@ -25,7 +25,7 @@ caracteres_ruido20 = np.genfromtxt(
     'datasets/caracteres_ruido20.csv', delimiter=',', encoding='UTF-8-sig')
 
 dataset = np.concatenate(
-    (caracteres_limpo, caracteres_ruido, caracteres_ruido20))
+    (caracteres_limpo, caracteres_ruido20))
 
 hyperparameters = gen_hyperparameters_dict(63, [49, 39, 33, 29], 7)
 mlp = MultilayerPerceptron(hyperparameters)
@@ -39,6 +39,8 @@ print("Acuracia depois de testes:")
 print(mt.accuracy_score(target, testes))
 print("Precisao depois de testes:")
 print(mt.precision_score(target, testes, average='micro'))
+print("Recall depois de testes:")
+print(mt.recall_score(target, testes, average='micro'))
 print("F1_score depois de testes:")
 print(mt.f1_score(target, testes, average='micro'))
 print("Roc_Auc_score depois de testes:")

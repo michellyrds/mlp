@@ -138,7 +138,7 @@ class MultilayerPerceptron(object):
         # dataset de treinamento, um de teste e um de validação
         X, y = self.preprocessing(dataset)
         #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
-
+        sum_error = 0
         for i in range(maxEpochs):
             print("\n---------------- Época {} ----------------".format(i+1))
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
@@ -172,14 +172,15 @@ class MultilayerPerceptron(object):
             error_rate_test = sum_error_test/(len(X_test))
             print("Erro médio na validação: {}".format(error_rate_test))
 
-            error = error_rate_train + error_rate_test/2
-            acc = 1 - error
+            sum_error += error_rate_test
+            #calculando a acúracia total estimada usando random sampling (média das acurácias obtidas em cada iteração)
+            acc = 1 - (sum_error/(i+1)) 
             if(acc >= momentum):
                 print("Rede neural convergiu na época {} com acurácia de {}".format(i+1, acc))
                 return
             
         
-        print("\nTreinamento finalizado. Acurácia do modelo: {}".format(1 - error))
+        print("\nTreinamento finalizado. Acurácia do modelo: {}".format(1 - (sum_error/maxEpochs)))
 
     def predict(self, input):
         output = []
