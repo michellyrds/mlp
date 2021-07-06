@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.sparse.construct import rand
 from funcao_step import *
 import random
 from sklearn.model_selection import (
@@ -132,11 +131,14 @@ class MultilayerPerceptron(object):
             w += (derivadas * learning_rate)
             self.pesos[i] = w
 
+    def train_CV(self, dataset, learning_rate, test_size, seed=None):
+        pass
+
     def train(self, dataset, maxEpochs, learning_rate, test_size, random_state=None, momentum=0.7):
         # dataset de treinamento, um de teste e um de validação
         X, y = self.preprocessing(dataset)
+        #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
 
-        sum_error = 0
         for i in range(maxEpochs):
             print("\n---------------- Época {} ----------------".format(i+1))
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
@@ -157,7 +159,7 @@ class MultilayerPerceptron(object):
             error_rate_train = sum_error_train/(len(X_train))
             print("Erro médio no treinamento: {}".format(error_rate_train))
 
-            #calculando o momentum
+            # calculate the momentum
             sum_error_test = 0
             for j, input in enumerate(X_test):
                 
@@ -170,10 +172,8 @@ class MultilayerPerceptron(object):
             error_rate_test = sum_error_test/(len(X_test))
             print("Erro médio na validação: {}".format(error_rate_test))
 
-            sum_error += error_rate_test
-
-            #calcula a acurácia total estimada usando random sampling (média das acurácias obtidas em cada iteração)
-            acc = 1 - (sum_error/i+1)
+            error = error_rate_train + error_rate_test/2
+            acc = 1 - error
             if(acc >= momentum):
                 print("Rede neural convergiu na época {} com acurácia de {}".format(i+1, acc))
                 return
