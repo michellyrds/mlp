@@ -5,6 +5,8 @@ import pandas as pd
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sn
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
 
 AND_dataset = np.genfromtxt(
     'datasets/problemAND.csv', delimiter=",", encoding='UTF-8-sig')
@@ -29,19 +31,23 @@ dataset = np.concatenate(
 
 hyperparameters = gen_hyperparameters_dict(63, [49, 39, 33, 29], 7)
 mlp = MultilayerPerceptron(hyperparameters)
-mlp.train(dataset, maxEpochs=1000, learning_rate=0.001,
-          test_size=0.2, random_state=None, momentum=0.90)
+mlp.train(dataset, maxEpochs=2000, learning_rate=0.001,
+          test_size=0.2, random_state=None, momentum=0.99)
 
 features, target = mlp.preprocessing(caracteres_ruido)
 testes = mlp.predict(features)
-print(target)
-print(testes)
+
+print("Acuracia depois de testes:")
+print(accuracy_score(target, testes))
+print("F1_score depois de testes:")
+print(f1_score(target, testes, average='micro'))
+
 
 m_c = confusion_matrix(target.argmax(axis=1), testes.argmax(axis=1))
 print(m_c)
 
-df_cm = pd.DataFrame(m_c, index = [i for i in "1234567"],
-                  columns = [i for i in "1234567"])
+df_cm = pd.DataFrame(m_c, index = [i for i in "ABCDEJK"],
+                  columns = [i for i in "ABCDEJK"])
 plt.figure(figsize = (7,6))
 sn.heatmap(df_cm, annot=True)
 plt.show()
