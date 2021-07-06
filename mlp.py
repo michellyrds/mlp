@@ -82,7 +82,7 @@ class MultilayerPerceptron(object):
         # aplicando a função de ativação bipolar na camada de saída
         w = self.pesos[-1]
         net_inputs = np.dot(ativacoes, w)
-        ativacoes = net_inputs
+        ativacoes = bipolar(0,net_inputs)
         self.ativacoes[-1] = ativacoes
         # # !
         return ativacoes
@@ -187,7 +187,7 @@ class MultilayerPerceptron(object):
         for j, teste in enumerate(input):
                 output.append(self.forward_propagate(teste))
 
-        return output
+        return np.asarray(output)
 
     def save_model(self):  # michelly
         # salvar a arquitetura do modelo

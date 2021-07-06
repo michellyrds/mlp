@@ -4,7 +4,7 @@ from mlp import *
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
-import statsmodels.api as sm
+import seaborn as sn
 
 AND_dataset = np.genfromtxt(
     'datasets/problemAND.csv', delimiter=",", encoding='UTF-8-sig')
@@ -36,14 +36,13 @@ features, target = mlp.preprocessing(caracteres_ruido)
 testes = mlp.predict(features)
 print(target)
 print(testes)
-'''
-testes = round(mlp.predict(features))
-m_c = confusion_matrix(target, testes)
+
+m_c = confusion_matrix(target.argmax(axis=1), testes.argmax(axis=1))
 print(m_c)
 
-df_cm = pd.DataFrame(m_c, index = [i for i in "PN"],
-                  columns = [i for i in "PN"])
+df_cm = pd.DataFrame(m_c, index = [i for i in "1234567"],
+                  columns = [i for i in "1234567"])
 plt.figure(figsize = (7,6))
 sn.heatmap(df_cm, annot=True)
 plt.show()
-'''
+
