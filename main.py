@@ -2,11 +2,9 @@ import numpy as np
 from numpy import genfromtxt
 from mlp import *
 import pandas as pd
-from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sn
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import f1_score
+import sklearn.metrics as mt
 
 AND_dataset = np.genfromtxt(
     'datasets/problemAND.csv', delimiter=",", encoding='UTF-8-sig')
@@ -32,18 +30,22 @@ dataset = np.concatenate(
 hyperparameters = gen_hyperparameters_dict(63, [49, 39, 33, 29], 7)
 mlp = MultilayerPerceptron(hyperparameters)
 mlp.train(dataset, maxEpochs=2000, learning_rate=0.001,
-          test_size=0.2, random_state=None, momentum=0.99)
+          test_size=0.2, random_state=None, momentum=0.90)
 
 features, target = mlp.preprocessing(caracteres_ruido)
 testes = mlp.predict(features)
 
 print("Acuracia depois de testes:")
-print(accuracy_score(target, testes))
+print(mt.accuracy_score(target, testes))
+print("Precisao depois de testes:")
+print(mt.precision_score(target, testes, average='micro'))
 print("F1_score depois de testes:")
-print(f1_score(target, testes, average='micro'))
+print(mt.f1_score(target, testes, average='micro'))
+print("Roc_Auc_score depois de testes:")
+print(mt.roc_auc_score(target, testes, average='micro'))
 
 
-m_c = confusion_matrix(target.argmax(axis=1), testes.argmax(axis=1))
+m_c = mt.confusion_matrix(target.argmax(axis=1), testes.argmax(axis=1))
 print(m_c)
 
 df_cm = pd.DataFrame(m_c, index = [i for i in "ABCDEJK"],
