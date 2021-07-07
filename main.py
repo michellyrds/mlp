@@ -24,14 +24,14 @@ caracteres_ruido = np.genfromtxt(
 caracteres_ruido20 = np.genfromtxt(
     'datasets/caracteres_ruido20.csv', delimiter=',', encoding='UTF-8-sig')
 
-y1 = caracteres_limpo[7:, :]
-y2 = caracteres_ruido[7:, :]
-y3 = caracteres_ruido20[7:, :]
+y1 = caracteres_limpo[:-14, :]
+y2 = caracteres_ruido[7:-7, :]
+y3 = caracteres_ruido20[14:, :]
 dataset_teste = np.concatenate(
     (y1, y2, y3))
 
-caracteres_limpo = caracteres_limpo[:-7, :]
-caracteres_ruido = caracteres_ruido[:-7, :]
+caracteres_limpo = caracteres_limpo[7:, :]
+caracteres_ruido = caracteres_ruido[:, :]
 caracteres_ruido20 = caracteres_ruido20[:-7, :]
 
 dataset = np.concatenate(
