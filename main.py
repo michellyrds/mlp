@@ -24,31 +24,29 @@ dataset = np.concatenate(
 
 hyperparameters = gen_hyperparameters_dict(63, [49, 39, 33, 29], 7)
 mlp = MultilayerPerceptron(hyperparameters)
-mlp.train(dataset, maxEpochs=2000, learning_rate=0.001,
+mlp.train(dataset, maxEpochs=500, learning_rate=0.001,
           test_size=0.2, random_state=None, momentum=0.90)
 
 features, target = mlp.preprocessing(dataset_teste)
 testes = mlp.predict(features)
 
+"""
+    Análise dos resultados
+"""
 
-print("Acurácia depois da validação:")
-print(mt.accuracy_score(target, testes))
-print("Precisão depois de testes:")
-print(mt.precision_score(target, testes, average='micro'))
-print("Recall depois de testes:")
-print(mt.recall_score(target, testes, average='micro'))
-print("F1_score depois de testes:")
-print(mt.f1_score(target, testes, average='micro'))
-print("Roc_Auc_score depois de testes:")
-print(mt.roc_auc_score(target, testes, average='micro'))
-
+print("---------------- Validação ----------------")
+print("Acurácia: {}".format((mt.accuracy_score(target, testes))))
+print("Precisão: {}".format(mt.precision_score(target, testes, average='micro')))
+print("Recall: {}".format(mt.recall_score(target, testes, average='micro')))
+print("F1_score: {}".format(mt.f1_score(target, testes, average='micro')))
+print("Roc_Auc_score: {}".format(
+    mt.roc_auc_score(target, testes, average='micro')))
 
 m_c = mt.confusion_matrix(target.argmax(axis=1), testes.argmax(axis=1))
 print(m_c)
 
-df_cm = pd.DataFrame(m_c, index = [i for i in "ABCDEJK"],
-                  columns = [i for i in "ABCDEJK"])
-plt.figure(figsize = (7,6))
+df_cm = pd.DataFrame(m_c, index=[i for i in "ABCDEJK"],
+                     columns=[i for i in "ABCDEJK"])
+plt.figure(figsize=(7, 6))
 sn.heatmap(df_cm, annot=True)
 plt.show()
-

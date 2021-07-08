@@ -2,7 +2,7 @@ import numpy as np
 from funcao_step import *
 import random
 from sklearn.model_selection import (
-    train_test_split, 
+    train_test_split,
     KFold
 )
 """
@@ -82,7 +82,7 @@ class MultilayerPerceptron(object):
         # aplicando a função de ativação bipolar na camada de saída
         w = self.pesos[-1]
         net_inputs = np.dot(ativacoes, w)
-        ativacoes = bipolar(0,net_inputs)
+        ativacoes = bipolar(0, net_inputs)
         self.ativacoes[-1] = ativacoes
         # # !
         return ativacoes
@@ -141,7 +141,8 @@ class MultilayerPerceptron(object):
         sum_error = 0
         for i in range(maxEpochs):
             print("\n---------------- Época {} ----------------".format(i+1))
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=test_size)
             sum_error_train = 0
 
             for j, input in enumerate(X_train):
@@ -162,35 +163,30 @@ class MultilayerPerceptron(object):
             # calculate the momentum
             sum_error_test = 0
             for j, input in enumerate(X_test):
-                
+
                 output = self.forward_propagate(input)
                 error = y_test[j] - output
 
                 sum_error_test += self.mean_squad_error(y_test[j], output)
 
-                
             error_rate_test = sum_error_test/(len(X_test))
             print("Erro médio na validação: {}".format(error_rate_test))
 
             sum_error += error_rate_test
-            #calculando a acúracia total estimada usando random sampling (média das acurácias obtidas em cada iteração)
-            acc = 1 - (sum_error/(i+1)) 
+            # calculando a acúracia total estimada usando random sampling (média das acurácias obtidas em cada iteração)
+            acc = 1 - (sum_error/(i+1))
             if(acc >= momentum):
-                print("Rede neural convergiu na época {} com acurácia de {}".format(i+1, acc))
+                print(
+                    "Rede neural convergiu na época {} com acurácia de {}".format(i+1, acc))
                 return
-            
-        
-        print("\nTreinamento finalizado. Acurácia do modelo: {}".format(1 - (sum_error/maxEpochs)))
+
+        print("\nTreinamento finalizado. Acurácia do modelo: {}".format(
+            1 - (sum_error/maxEpochs)))
 
     def predict(self, input):
         output = []
-        
+
         for j, teste in enumerate(input):
-                output.append(self.forward_propagate(teste))
+            output.append(self.forward_propagate(teste))
 
         return np.asarray(output)
-
-    def save_model(self):  # michelly
-        # salvar a arquitetura do modelo
-        # salvar a matriz de pesos
-        pass

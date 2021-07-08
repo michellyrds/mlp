@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def get_data():
     AND_dataset = np.genfromtxt(
         'datasets/problemAND.csv', delimiter=",", encoding='UTF-8-sig')
