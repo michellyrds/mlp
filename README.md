@@ -4,46 +4,32 @@
 
 ### Implementação da rede neural artificial Multilayer Perceptron com uma camada escondida e treinada com o algoritmo Backpropagation de gradiente descendente.
 
-**TO DO LIST** (remover depois)
-- [x] Implementar o MLP
-- [x] Implementar o Backpropagation
-- [ ] Implementar avaliação de classificadores
+O EP foi desenvolvindo no sistema operacional Ubuntu 18.0 LTS utilizando o pyenv como 
+plugin para gerenciar virtualenvs do Python. Para baixar o pyenv, acesse o [link](https://github.com/pyenv/pyenv-virtualenv) da página oficial no GitHub.
+
+Para criar o ambiente virtual:
+```
+make environment
+```
+Para instalar as bibliotecas utilizadas no EP:
+```
+make requirements
+```
 
 ### **Executando o MLP**
 ```
-trecho de código
+make start
 ```
-
 
 **Estrutura de arquivo do MLP:**
 ```
-├── _config.yml
-├── _datasets/
-|   ├── begin-with-the-crazy-ideas.md
-│   └── members.
-├── _drafts
-│   ├── begin-with-the-crazy-ideas.md
-│   └── on-simplicity-in-technology.md
-├── _includes
-│   ├── footer.html
-│   └── header.html
-├── _layouts
-│   ├── default.html
-│   └── post.html
-├── _posts
-│   ├── 2007-10-29-why-every-programmer-should-play-nethack.md
-│   └── 2009-04-26-barcamp-boston-4-roundup.md
-├── _sass
-│   ├── _base.scss
-│   └── _layout.scss
-├── _site
-├── .jekyll-cache
-│   └── Jekyll
-│       └── Cache
-│           └── [...]
-├── .jekyll-metadata
-└── index.html # can also be an 'index.md' with valid front matter
-```
+├── _requirements.txt -> dependências do EP
+├── _datasets/ --> contém todos os datasets utilizados no EP
+├── _load_data.py --> carrega os datasets
+├── _funcao_step.py --> contém todas funções de ativação que foram testadas no MLP
+├── _mlp.py --> implementação do Multilayer Perceptron
+└── _main.py --> script para a execução do MLP e análise dos resultados
+```  
 Integrantes do grupo:
 * Alexandre Kenji Okamoto
    * 11208371 | alexandre.kenji19@usp.br

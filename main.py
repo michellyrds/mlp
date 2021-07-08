@@ -30,9 +30,10 @@ mlp.train(dataset, maxEpochs=2000, learning_rate=0.001,
 features, target = mlp.preprocessing(dataset_teste)
 testes = mlp.predict(features)
 
-print("Acuracia depois de testes:")
+
+print("Acurácia depois da validação:")
 print(mt.accuracy_score(target, testes))
-print("Precisao depois de testes:")
+print("Precisão depois de testes:")
 print(mt.precision_score(target, testes, average='micro'))
 print("Recall depois de testes:")
 print(mt.recall_score(target, testes, average='micro'))
