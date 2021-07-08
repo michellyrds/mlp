@@ -23,9 +23,9 @@ dataset = np.concatenate(
     (caracteres_limpo, caracteres_ruido, caracteres_ruido20))
 
 hyperparameters = gen_hyperparameters_dict(63, [49, 39, 33, 29], 7)
-mlp = MultilayerPerceptron(hyperparameters)
-mlp.train(dataset, maxEpochs=500, learning_rate=0.001,
-          test_size=0.2, random_state=None, momentum=0.90)
+mlp = MultilayerPerceptron(hyperparameters, seed=12345)
+mlp.train(dataset, maxEpochs=2000, learning_rate=0.001,
+          test_size=0.33, random_state=12345, accMin=0.90)
 
 features, target = mlp.preprocessing(dataset_teste)
 testes = mlp.predict(features)
@@ -34,7 +34,7 @@ testes = mlp.predict(features)
     Análise dos resultados
 """
 
-print("---------------- Validação ----------------")
+print("\n---------------- Validação ----------------")
 print("Acurácia: {}".format((mt.accuracy_score(target, testes))))
 print("Precisão: {}".format(mt.precision_score(target, testes, average='micro')))
 print("Recall: {}".format(mt.recall_score(target, testes, average='micro')))
