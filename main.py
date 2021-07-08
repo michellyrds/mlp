@@ -5,24 +5,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sn
 import sklearn.metrics as mt
+from load_data import *
 
-AND_dataset = np.genfromtxt(
-    'datasets/problemAND.csv', delimiter=",", encoding='UTF-8-sig')
-
-OR_dataset = np.genfromtxt(
-    'datasets/problemOR.csv', delimiter=",", encoding='UTF-8-sig')
-
-XOR_dataset = np.genfromtxt(
-    'datasets/problemXOR.csv', delimiter=",", encoding='UTF-8-sig')
-
-caracteres_limpo = np.genfromtxt(
-    'datasets/caracteres-limpo.csv', delimiter=',', encoding='UTF-8-sig')
-
-caracteres_ruido = np.genfromtxt(
-    "datasets/caracteres-ruido.csv", delimiter=',', encoding='UTF-8-sig')
-
-caracteres_ruido20 = np.genfromtxt(
-    'datasets/caracteres_ruido20.csv', delimiter=',', encoding='UTF-8-sig')
+caracteres_limpo, caracteres_ruido, caracteres_ruido20 = get_data_caracteres()
 
 y1 = caracteres_limpo[:-14, :]
 y2 = caracteres_ruido[7:-7, :]
