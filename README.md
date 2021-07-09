@@ -34,6 +34,7 @@ make start
 ├── _mlp.py --> implementação do Multilayer Perceptron
 ├── _arquitetura-MLP.svg
 ├── _matriz_de_confusao.png
+├── _referencias.txt --> links dos artigos e ferramentas complementares utilizadas 
 └── _main.py --> script para a execução do MLP e análise dos resultados
 ```  
 Integrantes do grupo:
