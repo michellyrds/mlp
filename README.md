@@ -32,6 +32,8 @@ make start
 ├── _load_data.py --> carrega os datasets
 ├── _funcao_step.py --> contém todas funções de ativação que foram testadas no MLP
 ├── _mlp.py --> implementação do Multilayer Perceptron
+├── _arquitetura-MLP.svg
+├── _matriz_de_confusao.png
 └── _main.py --> script para a execução do MLP e análise dos resultados
 ```  
 Integrantes do grupo:
