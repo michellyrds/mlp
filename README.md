@@ -4,8 +4,8 @@
 
 ### Implementação da rede neural artificial Multilayer Perceptron com uma camada escondida e treinada com o algoritmo Backpropagation de gradiente descendente.
 
-O EP foi desenvolvindo no sistema operacional Ubuntu 18.0 LTS utilizando o pyenv como 
-plugin para gerenciar virtualenvs do Python. Para baixar o pyenv, acesse o [link](https://github.com/pyenv/pyenv-virtualenv) da página oficial no GitHub.
+O EP foi desenvolvindo no sistema operacional Ubuntu 18.04.5 LTS utilizando o pyenv como 
+plugin para gerenciar virtualenvs do Python. Para baixar o pyenv, acesse o [link](https://github.com/pyenv/pyenv-virtualenv) da página oficial no GitHub. Não é obrigatório mas irá evitar possíveis conflitos de dependências :)
 
 Para criar o ambiente virtual:
 ```
