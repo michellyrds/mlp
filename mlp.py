@@ -132,9 +132,6 @@ class MultilayerPerceptron(object):
             w += (derivadas * learning_rate)
             self.pesos[i] = w
 
-    def min(a, b):
-        return a if a > b else b
-
     def train(self, dataset, maxEpochs, learning_rate, test_size, random_state=None, accMin=0.80):
         # dataset de treinamento, um de teste e um de validação
         X, y = self.preprocessing(dataset)
