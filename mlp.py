@@ -175,7 +175,7 @@ class MultilayerPerceptron(object):
 
             error_rate_test_ant = error_rate_test
             error_rate_test = sum_error_test/(len(X_test))
-            print("Erro médio na validação: {}".format(error_rate_test))
+            print("Erro médio no teste: {}".format(error_rate_test))
 
             sum_error += error_rate_test
             # calculando a acúracia total estimada usando random sampling (média das acurácias obtidas em cada iteração)
