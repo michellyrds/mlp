@@ -20,7 +20,7 @@ make requirements
 ```
 make start
 ```
-#### **Arquitetura de rede**
+#### **Arquitetura da rede**
 ![alt text](arquitetura-MLP.png)
 
 ### **Matriz de confusão**  
