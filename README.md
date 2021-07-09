@@ -23,8 +23,8 @@ make start
 #### **Arquitetura de rede**
 ![alt text](arquitetura-MLP.svg)
 
-### **Matriz de confusão**
-![alt text](matriz_de_confusao.png)
+### **Matriz de confusão**  
+![alt text](matriz_de_confusao.png)  
 **Estrutura de arquivo do MLP:**
 ```
 ├── _requirements.txt -> dependências do EP
