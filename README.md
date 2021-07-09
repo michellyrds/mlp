@@ -23,7 +23,7 @@ make start
 #### **Arquitetura da rede**
 ![alt text](arquitetura-MLP.png)
 
-### **Matriz de confusão**  
+#### **Matriz de confusão**  
 ![alt text](matriz_de_confusao.png)  
 
 **Estrutura de arquivo do MLP:**
