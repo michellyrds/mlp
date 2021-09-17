@@ -1,6 +1,6 @@
 
-.PHONY: enviroment
-enviroment:
+.PHONY: environment
+environment:
 	pyenv install -s 3.8.0
 	pyenv virtualenv 3.8.0 mlp
 	pyenv local mlp
