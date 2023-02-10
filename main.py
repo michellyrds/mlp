@@ -22,12 +22,11 @@ caracteres_ruido20 = caracteres_ruido20[:-7, :]
 dataset = np.concatenate(
     (caracteres_limpo, caracteres_ruido, caracteres_ruido20))
 
-hyperparameters = gen_hyperparameters_dict(63, [49, 39, 33, 29], 7)
-mlp = MultilayerPerceptron(hyperparameters, seed=12345)
-mlp.train(dataset, maxEpochs=2000, learning_rate=0.001,
+mlp = MultilayerPerceptron(hyperparameters={"n_inputs": 63, "n_hidden_layers": [49, 39, 33, 29], "n_outputs": 7}, seed=12345)
+mlp.train(dataset, maxEpochs=50, learning_rate=0.001,
           test_size=0.33, random_state=12345, accMin=0.90)
 
-features, target = mlp.preprocessing(dataset_teste)
+features, target = mlp.split_dataset(dataset_teste)
 testes = mlp.predict(features)
 
 """

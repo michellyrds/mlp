@@ -1,100 +1,69 @@
+from typing import Any, Dict
 import numpy as np
-import math
-from funcao_step import *
-import random
-from sklearn.model_selection import (
-    train_test_split,
-    KFold
-)
-"""
-    Dict que implementa os hiperparametros do MLP
-"""
-
-"""
-    **Hiperparametros do modelo**
-    n_inputs: numero de perceptrons na camada de entrada
-    n_camada_escondida: lista de int no qual
-        len(n_camada_escondida): número de camadas escondidas
-        n_camada_escondida[i] = k, onde k é o número de perceptrons na camada escondida i
-    n_outputs: numero de perceptrons na camada de saída
-"""
-
-
-def gen_hyperparameters_dict(n_inputs: int, n_camada_escondida: list, n_outputs: int) -> dict:
-
-    hyperparameters = dict([
-        ('n_inputs', n_inputs),
-        ('n_camada_escondida', n_camada_escondida),
-        ('n_outputs', n_outputs)
-    ])
-    return hyperparameters
+from activation_functions import sigmoid, d_sigmoid, bipolar
+from sklearn.model_selection import train_test_split
 
 
 class MultilayerPerceptron(object):
+    def __init__(self, hyperparameters: Dict[str, Any], seed=None):
+        self.n_inputs = hyperparameters["n_inputs"]
+        self.hidden_layers = hyperparameters["n_hidden_layers"]
+        self.n_outputs = hyperparameters["n_outputs"]
 
-    def __init__(self, hyperparameters: dict, seed=None):
-
-        self.n_inputs = hyperparameters['n_inputs']
-        self.n_camada_escondidas = hyperparameters['n_camada_escondida']
-        self.n_outputs = hyperparameters['n_outputs']
-
-        # representação da arquitetura da rede
-        camadas = [self.n_inputs] + self.n_camada_escondidas + [self.n_outputs]
+        layers = [self.n_inputs] + self.hidden_layers + [self.n_outputs]
 
         np.random.seed(seed)
-        pesos = []  # matriz de pesos
-        for i in range(len(camadas)-1):
-            w = np.random.uniform(-1, 1, (camadas[i], camadas[i+1]))
-            # w = np.random.rand(camadas[i], camadas[i + 1])
-            pesos.append(w)
-        self.pesos = pesos
 
-        # ativações por camada
-        ativacoes = []
-        for i in range(len(camadas)):
-            a = np.zeros(camadas[i])
-            ativacoes.append(a)
+        weights = []
+        for i in range(len(layers) - 1):
+            w = np.random.uniform(-1, 1, (layers[i], layers[i + 1]))
+            # w = np.random.rand(layers[i], layers[i + 1])
+            weights.append(w)
+        self.weights = weights
 
-        self.ativacoes = ativacoes
+        activations = []
+        for i in range(len(layers)):
+            a = np.zeros(layers[i])
+            activations.append(a)
 
-        # derivadas por camada
-        derivadas = []
-        for i in range(len(camadas)-1):
-            d = np.zeros((camadas[i], camadas[i+1]))
-            derivadas.append(d)
+        self.activations = activations
 
-        self.derivadas = derivadas
+        derivatives = []
+        for i in range(len(layers) - 1):
+            d = np.zeros((layers[i], layers[i + 1]))
+            derivatives.append(d)
 
-    def preprocessing(self, dataset):
-        X, y = dataset[:, :-self.n_outputs], dataset[:, self.n_inputs:]
+        self.derivatives = derivatives
+
+    def split_dataset(self, dataset):
+        X, y = dataset[:, : -self.n_outputs], dataset[:, self.n_inputs :]
 
         return X, y
 
     def forward_propagate(self, inputs):
-        ativacoes = inputs
+        activations = inputs
 
-        self.ativacoes[0] = ativacoes
+        self.activations[0] = activations
 
-        for i, w in enumerate(self.pesos[:-1]):
-            net_inputs = np.dot(ativacoes, w)
-            ativacoes = sigmoid(net_inputs)
-            self.ativacoes[i+1] = ativacoes
+        for i, w in enumerate(self.weights[:-1]):
+            net_inputs = np.dot(activations, w)
+            activations = sigmoid(net_inputs)
+            self.activations[i + 1] = activations
 
-        # aplicando a função de ativação bipolar na camada de saída
-        w = self.pesos[-1]
-        net_inputs = np.dot(ativacoes, w)
-        ativacoes = bipolar(0, net_inputs)
-        self.ativacoes[-1] = ativacoes
+        w = self.weights[-1]
+        net_inputs = np.dot(activations, w)
+        activations = bipolar(0, net_inputs)
+        self.activations[-1] = activations
         # # !
-        return ativacoes
+        return activations
 
-    def back_propagate(self, erro):
+    def back_propagate(self, error):
         """
         E = erro quadrático
 
         y - a[i+1] = erro (label - output da predição)
         s'(h_[i+1]) = derivada da função step
-        a_i = ativacoes da camada i
+        a_i = activations da camada i
 
         dE/dW_i = (y - a[i+1]) * s'(h_[i+1])*a_i
         s'(h_[i+1]) = s(h_[i+1])(1 - s(h_[i+1]))
@@ -104,37 +73,43 @@ class MultilayerPerceptron(object):
 
         """
 
-        for i in reversed(range(len(self.derivadas))):
-            ativacoes = self.ativacoes[i+1]
+        for i in reversed(range(len(self.derivatives))):
+            activations = self.activations[i + 1]
 
-            delta = erro * d_sigmoid(ativacoes)
+            delta = error * d_sigmoid(activations)
 
             delta_t = delta.reshape(delta.shape[0], -1).T
 
-            ativacao_atual = self.ativacoes[i]
+            current_activations = self.activations[i]
 
-            # transforma em uma matriz coluna
-            ativacao_atual = ativacao_atual.reshape(
-                ativacao_atual.shape[0], -1)
+            current_activations = current_activations.reshape(
+                current_activations.shape[0], -1
+            )
 
-            self.derivadas[i] = np.dot(ativacao_atual, delta_t)
+            self.derivatives[i] = np.dot(current_activations, delta_t)
 
-            erro = np.dot(delta, self.pesos[i].T)  # transposta
+            error = np.dot(delta, self.weights[i].T)
 
-    def mean_squad_error(self, label, output):
-        return np.average((label - output)**2)
+    def mean_square_error(self, label, output):
+        return np.average((label - output) ** 2)
 
     def gradient_descent(self, learning_rate: float):
+        for i in range(len(self.weights)):
+            w = self.weights[i]
+            derivatives = self.derivatives[i]
+            w += derivatives * learning_rate
+            self.weights[i] = w
 
-        for i in range(len(self.pesos)):
-            w = self.pesos[i]
-            derivadas = self.derivadas[i]
-            w += (derivadas * learning_rate)
-            self.pesos[i] = w
-
-    def train(self, dataset, maxEpochs, learning_rate, test_size, random_state=None, accMin=0.80):
-        # dataset de treinamento, um de teste e um de validação
-        X, y = self.preprocessing(dataset)
+    def train(
+        self,
+        dataset,
+        maxEpochs,
+        learning_rate,
+        test_size,
+        random_state=None,
+        accMin=0.80,
+    ):
+        X, y = self.split_dataset(dataset)
 
         sum_error = 0
 
@@ -142,13 +117,14 @@ class MultilayerPerceptron(object):
         error_rate_test_ant = 1
 
         for i in range(maxEpochs):
-            print("\n---------------- Época {} ----------------".format(i+1))
+            print(f"\n---------------- Epoch {i+1} ----------------")
+
             X_train, X_test, y_train, y_test = train_test_split(
-                X, y, test_size=test_size)
+                X, y, test_size=test_size, random_state=random_state
+            )
             sum_error_train = 0
 
             for j, input in enumerate(X_train):
-
                 output = self.forward_propagate(input)
 
                 error = y_train[j] - output
@@ -157,35 +133,38 @@ class MultilayerPerceptron(object):
 
                 self.gradient_descent(learning_rate)
 
-                sum_error_train += self.mean_squad_error(y_train[j], output)
+                sum_error_train += self.mean_square_error(y_train[j], output)
 
-            error_rate_train = sum_error_train/(len(X_train))
-            print("Erro médio no treinamento: {}".format(error_rate_train))
+            error_rate_train = sum_error_train / (len(X_train))
+            print(f"Training error: {error_rate_train}")
 
             sum_error_test = 0
             for j, input in enumerate(X_test):
-
                 output = self.forward_propagate(input)
                 error = y_test[j] - output
 
-                sum_error_test += self.mean_squad_error(y_test[j], output)
+                sum_error_test += self.mean_square_error(y_test[j], output)
 
             error_rate_test_ant = error_rate_test
-            error_rate_test = sum_error_test/(len(X_test))
-            print("Erro médio no teste: {}".format(error_rate_test))
+            error_rate_test = sum_error_test / (len(X_test))
+            print(f"Test error: {error_rate_test}")
 
             sum_error += error_rate_test
-            # calculando a acúracia total estimada usando random sampling (média das acurácias obtidas em cada iteração)
-            acc = 1 - (sum_error/(i+1))
+            acc = 1 - (sum_error / (i + 1))
 
-            # parada antecipada
-            if(error_rate_test_ant < error_rate_test and abs((error_rate_test - error_rate_train)) < 0.15 and acc >= accMin):
+            # TODO: Fix early stopping condition.
+            if (
+                error_rate_test_ant < error_rate_test
+                and abs((error_rate_test - error_rate_train)) < 0.15
+                and acc >= accMin
+            ):
                 print(
-                    "Treinamento finalizado na epóca {} com acurácia de {}".format(i+1, acc))
+                    f"[Early stopping] Training finished at epoch {i+1}"
+                    f" with accuracy of {acc}"
+                )
                 return
 
-        print("\nTreinamento finalizado. Acurácia do modelo: {}".format(
-            1 - (sum_error/maxEpochs)))
+        print(f"\nTraining finished. Model accuracy: {1-(sum_error/maxEpochs)}")
 
     def predict(self, input):
         output = []

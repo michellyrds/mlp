@@ -2,7 +2,7 @@ import numpy as np
 from math import exp
 
 
-def sigmoid(input):  # funcao sigmoide input = X = (x1, x2, x3, ...)
+def sigmoid(input):
     ativacao = []
     for x in input:
         ativacao.append(
@@ -11,7 +11,7 @@ def sigmoid(input):  # funcao sigmoide input = X = (x1, x2, x3, ...)
     return np.asarray(ativacao)
 
 
-def d_sigmoid(input):  # derivada da funcao sigmoide
+def d_sigmoid(input):
     ativacao = []
 
     for x in input:

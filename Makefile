@@ -9,6 +9,6 @@ environment:
 requirements:
 	pip install -Ur requirements.txt
 
-.PHONY: start
-start: 
+.PHONY: demo
+demo: 
 	PYTHONPATH=$(shell pwd) python main.py
