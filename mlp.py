@@ -54,25 +54,10 @@ class MultilayerPerceptron(object):
         net_inputs = np.dot(activations, w)
         activations = bipolar(0, net_inputs)
         self.activations[-1] = activations
-        # # !
+        # !
         return activations
 
     def back_propagate(self, error):
-        """
-        E = erro quadrático
-
-        y - a[i+1] = erro (label - output da predição)
-        s'(h_[i+1]) = derivada da função step
-        a_i = activations da camada i
-
-        dE/dW_i = (y - a[i+1]) * s'(h_[i+1])*a_i
-        s'(h_[i+1]) = s(h_[i+1])(1 - s(h_[i+1]))
-        s(h_[i+1]) = a_[i+1]
-
-        dE/dW_[i-1] = (y - a_[i+1] * s'(h_[i+1])) * W_i * s'(h_i) * a_[i-1]
-
-        """
-
         for i in reversed(range(len(self.derivatives))):
             activations = self.activations[i + 1]
 
@@ -166,10 +151,10 @@ class MultilayerPerceptron(object):
 
         print(f"\nTraining finished. Model accuracy: {1-(sum_error/maxEpochs)}")
 
-    def predict(self, input):
+    def predict(self, inputs):
         output = []
 
-        for j, teste in enumerate(input):
-            output.append(self.forward_propagate(teste))
+        for input in range(len(inputs)):
+            output.append(self.forward_propagate(input))
 
         return np.asarray(output)
