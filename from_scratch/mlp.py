@@ -1,6 +1,7 @@
 from typing import Any, Dict
+
 import numpy as np
-from activation_functions import sigmoid, d_sigmoid, bipolar
+from activation_functions import bipolar, d_sigmoid, sigmoid
 from sklearn.model_selection import train_test_split
 
 
@@ -154,7 +155,7 @@ class MultilayerPerceptron(object):
     def predict(self, inputs):
         output = []
 
-        for input in range(len(inputs)):
+        for input in inputs:
             output.append(self.forward_propagate(input))
 
         return np.asarray(output)

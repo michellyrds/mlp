@@ -5,10 +5,11 @@ environment:
 	pyenv virtualenv 3.8.0 mlp
 	pyenv local mlp
 
-.PHONY: requirements
-requirements:
-	pip install -Ur requirements.txt
+.PHONY: scratch-requirements
+scratch-requirements:
+	pip install -Ur from_scratch/requirements.txt
+	pip install -Ur from_scratch/requirements.lint.txt
 
 .PHONY: demo
 demo: 
-	PYTHONPATH=$(shell pwd) python main.py
+	PYTHONPATH=$(shell pwd) python from_scratch/main.py
